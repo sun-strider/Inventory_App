@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets;
+package com.example.android.inventory;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
@@ -35,7 +35,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.android.pets.data.PetContract.PetEntry;
+import com.example.android.inventory.data.PetContract.PetEntry;
 
 /**
  * Displays list of pets that were entered and stored in the app.
@@ -111,10 +111,10 @@ public class CatalogActivity extends AppCompatActivity implements
         // Create a ContentValues object where column names are the keys,
         // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(PetEntry.COLUMN_PET_NAME, "Toto");
-        values.put(PetEntry.COLUMN_PET_BREED, "Terrier");
-        values.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
-        values.put(PetEntry.COLUMN_PET_WEIGHT, 7);
+        values.put(PetEntry.COLUMN_ITEM_NAME, "Dummy");
+        values.put(PetEntry.COLUMN_ITEM_SUPPLIER, "Generic Supplier");
+        values.put(PetEntry.COLUMN_ITEM_QUANTITY, 0);
+        values.put(PetEntry.COLUMN_ITEM_PRICE, 7);
 
         // Insert a new row for Toto into the provider using the ContentResolver.
         // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
@@ -127,7 +127,7 @@ public class CatalogActivity extends AppCompatActivity implements
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.delete_all_pets_dialog_msg);
+        builder.setMessage(R.string.delete_all_items_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the pet.
@@ -162,11 +162,11 @@ public class CatalogActivity extends AppCompatActivity implements
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsDeleted == 0) {
             // If no rows were deleted, then there was an error with the update.
-            Toast.makeText(this, getString(R.string.editor_delete_pets_failed),
+            Toast.makeText(this, getString(R.string.editor_delete_items_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_delete_pets_successful),
+            Toast.makeText(this, getString(R.string.editor_delete_items_successful),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -201,8 +201,8 @@ public class CatalogActivity extends AppCompatActivity implements
         // Define a projection that specifies the columns from the table we care about.
         String[] projection = {
                 PetEntry._ID,
-                PetEntry.COLUMN_PET_NAME,
-                PetEntry.COLUMN_PET_BREED };
+                PetEntry.COLUMN_ITEM_NAME,
+                PetEntry.COLUMN_ITEM_SUPPLIER};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context

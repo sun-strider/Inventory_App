@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets.data;
+package com.example.android.inventory.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -24,7 +24,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.android.pets.data.PetContract.PetEntry;
+import com.example.android.inventory.data.PetContract.PetEntry;
 
 /**
  * {@link ContentProvider} for Pets app.
@@ -145,19 +145,19 @@ public class PetProvider extends ContentProvider {
      */
     private Uri insertPet(Uri uri, ContentValues values) {
         // Check that the name is not null
-        String name = values.getAsString(PetEntry.COLUMN_PET_NAME);
+        String name = values.getAsString(PetEntry.COLUMN_ITEM_NAME);
         if (name == null) {
             throw new IllegalArgumentException("Pet requires a name");
         }
 
         // Check that the gender is valid
-        Integer gender = values.getAsInteger(PetEntry.COLUMN_PET_GENDER);
+        Integer gender = values.getAsInteger(PetEntry.COLUMN_ITEM_QUANTITY);
         if (gender == null || !PetEntry.isValidGender(gender)) {
             throw new IllegalArgumentException("Pet requires valid gender");
         }
 
         // If the weight is provided, check that it's greater than or equal to 0 kg
-        Integer weight = values.getAsInteger(PetEntry.COLUMN_PET_WEIGHT);
+        Integer weight = values.getAsInteger(PetEntry.COLUMN_ITEM_PRICE);
         if (weight != null && weight < 0) {
             throw new IllegalArgumentException("Pet requires valid weight");
         }
@@ -207,29 +207,29 @@ public class PetProvider extends ContentProvider {
      * Return the number of rows that were successfully updated.
      */
     private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // If the {@link PetEntry#COLUMN_PET_NAME} key is present,
+        // If the {@link PetEntry#COLUMN_ITEM_NAME} key is present,
         // check that the name value is not null.
-        if (values.containsKey(PetEntry.COLUMN_PET_NAME)) {
-            String name = values.getAsString(PetEntry.COLUMN_PET_NAME);
+        if (values.containsKey(PetEntry.COLUMN_ITEM_NAME)) {
+            String name = values.getAsString(PetEntry.COLUMN_ITEM_NAME);
             if (name == null) {
                 throw new IllegalArgumentException("Pet requires a name");
             }
         }
 
-        // If the {@link PetEntry#COLUMN_PET_GENDER} key is present,
+        // If the {@link PetEntry#COLUMN_ITEM_QUANTITY} key is present,
         // check that the gender value is valid.
-        if (values.containsKey(PetEntry.COLUMN_PET_GENDER)) {
-            Integer gender = values.getAsInteger(PetEntry.COLUMN_PET_GENDER);
+        if (values.containsKey(PetEntry.COLUMN_ITEM_QUANTITY)) {
+            Integer gender = values.getAsInteger(PetEntry.COLUMN_ITEM_QUANTITY);
             if (gender == null || !PetEntry.isValidGender(gender)) {
                 throw new IllegalArgumentException("Pet requires valid gender");
             }
         }
 
-        // If the {@link PetEntry#COLUMN_PET_WEIGHT} key is present,
+        // If the {@link PetEntry#COLUMN_ITEM_PRICE} key is present,
         // check that the weight value is valid.
-        if (values.containsKey(PetEntry.COLUMN_PET_WEIGHT)) {
+        if (values.containsKey(PetEntry.COLUMN_ITEM_PRICE)) {
             // Check that the weight is greater than or equal to 0 kg
-            Integer weight = values.getAsInteger(PetEntry.COLUMN_PET_WEIGHT);
+            Integer weight = values.getAsInteger(PetEntry.COLUMN_ITEM_PRICE);
             if (weight != null && weight < 0) {
                 throw new IllegalArgumentException("Pet requires valid weight");
             }

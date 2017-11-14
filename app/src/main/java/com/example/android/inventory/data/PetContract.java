@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets.data;
+package com.example.android.inventory.data;
 
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -82,50 +82,33 @@ public final class PetContract {
         public final static String _ID = BaseColumns._ID;
 
         /**
-         * Name of the pet.
+         * Name of the item
          *
          * Type: TEXT
          */
-        public final static String COLUMN_PET_NAME ="name";
+        public final static String COLUMN_ITEM_NAME ="name";
 
         /**
-         * Breed of the pet.
+         * Supplier of item.
          *
          * Type: TEXT
          */
-        public final static String COLUMN_PET_BREED = "breed";
+        public final static String COLUMN_ITEM_SUPPLIER = "supplier";
 
         /**
-         * Gender of the pet.
+         * Quantity of the pet.
          *
-         * The only possible values are {@link #GENDER_UNKNOWN}, {@link #GENDER_MALE},
-         * or {@link #GENDER_FEMALE}.
          *
          * Type: INTEGER
          */
-        public final static String COLUMN_PET_GENDER = "gender";
+        public final static String COLUMN_ITEM_QUANTITY = "quantity";
 
         /**
-         * Weight of the pet.
+         * Price of the item.
          *
          * Type: INTEGER
          */
-        public final static String COLUMN_PET_WEIGHT = "weight";
-
-        /**
-         * Possible values for the gender of the pet.
-         */
-        public static final int GENDER_UNKNOWN = 0;
-        public static final int GENDER_MALE = 1;
-        public static final int GENDER_FEMALE = 2;
-
-        /**
-         * Returns whether or not the given gender is {@link #GENDER_UNKNOWN}, {@link #GENDER_MALE},
-         * or {@link #GENDER_FEMALE}.
-         */
-        public static boolean isValidGender(int gender) {
-            return gender == GENDER_UNKNOWN || gender == GENDER_MALE || gender == GENDER_FEMALE;
-        }
+        public final static String COLUMN_ITEM_PRICE = "price";
     }
 
 }

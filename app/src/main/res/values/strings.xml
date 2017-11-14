@@ -12,64 +12,107 @@
 -->
 <resources>
     <!-- Name for the application [CHAR LIMIT=12] -->
-    <string name="app_name">Pets</string>
+    <string name="app_name">Inventory</string>
 
-    <!-- Label for overflow menu option that inserts fake pet data into the app [CHAR LIMIT=20] -->
+    <!-- Label for overflow menu option that inserts fake data into the app [CHAR LIMIT=20] -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
 
-    <!-- Label for overflow menu option that deletes all pet data in the app [CHAR LIMIT=20] -->
-    <string name="action_delete_all_entries">Delete All Pets</string>
+    <!-- Label for overflow menu option that deletes all data in the app [CHAR LIMIT=20] -->
+    <string name="action_delete_all_entries">Delete All Items</string>
 
-    <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
+    <!-- Title text for the empty view, which describes the empty image [CHAR LIMIT=50] -->
     <string name="empty_view_title_text">It\'s a bit lonely here...</string>
 
-    <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
-    <string name="empty_view_subtitle_text">Get started by adding a pet</string>
+    <!-- Subtitle text for the empty view that prompts the user to add a item [CHAR LIMIT=50] -->
+    <string name="empty_view_subtitle_text">Get started by adding an item</string>
 
-    <!-- Title for the activity to add a new pet [CHAR LIMIT=20] -->
-    <string name="editor_activity_title_new_pet">Add a Pet</string>
+    <!-- Title for the activity to add a new item [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_new_item">Add an Item</string>
 
-    <!-- Title for the activity to edit an existing pet [CHAR LIMIT=20] -->
-    <string name="editor_activity_title_edit_pet">Edit Pet</string>
+    <!-- Title for the activity to edit an existing item [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_edit_item">Edit Item</string>
 
     <!-- Label for editor menu option to save pet and leave editor [CHAR LIMIT=20] -->
     <string name="action_save">Save</string>
 
-    <!-- Label for editor overflow menu option that deletes the current pet [CHAR LIMIT=20] -->
+    <!-- Label for editor overflow menu option that deletes the current item [CHAR LIMIT=20] -->
     <string name="action_delete">Delete</string>
 
-    <!-- Toast message in editor when new pet has been successfully inserted [CHAR LIMIT=NONE] -->
-    <string name="editor_insert_pet_successful">Pet saved</string>
+    <!-- Toast message in editor when new item has been successfully inserted [CHAR LIMIT=NONE] -->
+    <string name="editor_insert_item_successful">Item saved</string>
 
-    <!-- Toast message in editor when new pet has failed to be inserted [CHAR LIMIT=NONE] -->
-    <string name="editor_insert_pet_failed">Error with saving pet</string>
+    <!-- Toast message in editor when new item has failed to be inserted [CHAR LIMIT=NONE] -->
+    <string name="editor_insert_item_failed">Error with saving item</string>
 
-    <!-- Toast message in editor when new pet has been successfully inserted [CHAR LIMIT=NONE] -->
-    <string name="editor_update_pet_successful">Pet saved</string>
+    <!-- Toast message in editor when new item has been successfully inserted [CHAR LIMIT=NONE] -->
+    <string name="editor_update_item_successful">Item saved</string>
 
-    <!-- Toast message in editor when new pet has failed to be inserted [CHAR LIMIT=NONE] -->
-    <string name="editor_update_pet_failed">Error with saving pet</string>
+    <!-- Toast message in editor when new item has failed to be inserted [CHAR LIMIT=NONE] -->
+    <string name="editor_update_item_failed">Error with saving item</string>
 
     <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
     <string name="category_overview">Overview</string>
 
     <!-- Label for gender information in the editor [CHAR LIMIT=30] -->
-    <string name="category_gender">Gender</string>
+    <string name="category_quantity">Quantitiy</string>
 
     <!-- Label for measurement information in the editor [CHAR LIMIT=30] -->
-    <string name="category_measurement">Measurement</string>
+    <string name="category_price">Price</string>
 
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_pet_name">Name</string>
+    <string name="hint_item_name">Name</string>
 
-    <!-- Text hint for breed field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_pet_breed">Breed</string>
+    <!-- Text hint for supplier field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_item_supplier">Supplier</string>
 
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_pet_weight">Weight</string>
+    <string name="hint_item_price">Price</string>
 
-    <!-- Units for weight of the pet (kilograms) [CHAR LIMIT=5] -->
-    <string name="unit_pet_weight">kg</string>
+    <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_item_quantity">Quantity</string>
+
+    <!-- Units for price of the item (Euros) [CHAR LIMIT=5] -->
+    <string name="unit_item_price">€</string>
+
+    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+
+    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current item [CHAR LIMIT=20] -->
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Toast message in editor when current item was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_item_successful">Item deleted</string>
+
+    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_item_failed">Error with deleting item</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current item [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this item?</string>
+
+    <!-- Toast message in editor when all items were successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_items_successful">Items deleted</string>
+
+    <!-- Toast message in editor when deleting all items has failed [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_items_failed">Error with deleting items</string>
+
+    <!-- Dialog message to ask the user to confirm deleting all items [CHAR LIMIT=NONE] -->
+    <string name="delete_all_items_dialog_msg">Delete all items?</string>
+
+    <!-- Dialog button text for the option to confirm deleting the current item [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current item [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
+
+
+
+
+
+    <!-- Label for the pet's breed if the breed is unknown [CHAR LIMIT=20] -->
+    <string name="unknown_breed">Unknown breed</string>
 
     <!-- Label for dropdown menu option if the pet's gender is unknown [CHAR LIMIT=20] -->
     <string name="gender_unknown">Unknown</string>
@@ -79,41 +122,5 @@
 
     <!-- Label for dropdown menu option if the pet is female [CHAR LIMIT=20] -->
     <string name="gender_female">Female</string>
-
-    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
-    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
-
-    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
-    <string name="discard">Discard</string>
-
-    <!-- Dialog button text for the option to keep editing the current pet [CHAR LIMIT=20] -->
-    <string name="keep_editing">Keep Editing</string>
-
-    <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
-    <string name="editor_delete_pet_successful">Pet deleted</string>
-
-    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
-    <string name="editor_delete_pet_failed">Error with deleting pet</string>
-
-    <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
-    <string name="delete_dialog_msg">Delete this pet?</string>
-
-    <!-- Toast message in editor when all pets were successfully deleted [CHAR LIMIT=NONE] -->
-    <string name="editor_delete_pets_successful">Pets deleted</string>
-
-    <!-- Toast message in editor when deleting all pets has failed [CHAR LIMIT=NONE] -->
-    <string name="editor_delete_pets_failed">Error with deleting pets</string>
-
-    <!-- Dialog message to ask the user to confirm deleting all pets [CHAR LIMIT=NONE] -->
-    <string name="delete_all_pets_dialog_msg">Delete all pets?</string>
-
-    <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
-    <string name="delete">Delete</string>
-
-    <!-- Dialog button text for the option to cancel deletion of the current pet [CHAR LIMIT=20] -->
-    <string name="cancel">Cancel</string>
-
-    <!-- Label for the pet's breed if the breed is unknown [CHAR LIMIT=20] -->
-    <string name="unknown_breed">Unknown breed</string>
 
 </resources>
