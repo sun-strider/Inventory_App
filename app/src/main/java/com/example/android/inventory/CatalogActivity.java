@@ -35,7 +35,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.android.inventory.data.PetContract.PetEntry;
+import com.example.android.inventory.data.ItemContract;
+import com.example.android.inventory.data.ItemContract.ItemEntry;
 
 /**
  * Displays list of pets that were entered and stored in the app.
@@ -87,10 +88,10 @@ public class CatalogActivity extends AppCompatActivity implements
 
                 // Form the content URI that represents the specific pet that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
-                // {@link PetEntry#CONTENT_URI}.
+                // {@link ItemEntry#CONTENT_URI}.
                 // For example, the URI would be "content://com.example.android.pets/pets/2"
                 // if the pet with ID 2 was clicked on.
-                Uri currentPetUri = ContentUris.withAppendedId(PetEntry.CONTENT_URI, id);
+                Uri currentPetUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, id);
 
                 // Set the URI on the data field of the intent
                 intent.setData(currentPetUri);
@@ -111,16 +112,16 @@ public class CatalogActivity extends AppCompatActivity implements
         // Create a ContentValues object where column names are the keys,
         // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(PetEntry.COLUMN_ITEM_NAME, "Dummy");
-        values.put(PetEntry.COLUMN_ITEM_SUPPLIER, "Generic Supplier");
-        values.put(PetEntry.COLUMN_ITEM_QUANTITY, 0);
-        values.put(PetEntry.COLUMN_ITEM_PRICE, 7);
+        values.put(ItemContract.ItemEntry.COLUMN_ITEM_NAME, "Dummy");
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, "Generic Supplier");
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 0);
+        values.put(ItemEntry.COLUMN_ITEM_PRICE, 7);
 
         // Insert a new row for Toto into the provider using the ContentResolver.
-        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
+        // Use the {@link ItemEntry#CONTENT_URI} to indicate that we want to insert
         // into the pets database table.
         // Receive the new content URI that will allow us to access Toto's data in the future.
-        Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
+        Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
     }
 
     private void showDeleteConfirmationDialog() {
@@ -154,7 +155,7 @@ public class CatalogActivity extends AppCompatActivity implements
         // Pass in null for the selection and selection args because the mCurrentPetUri
         // content URI already identifies the pet that we want.
         int rowsDeleted = getContentResolver().delete(
-                PetEntry.CONTENT_URI,
+                ItemEntry.CONTENT_URI,
                 null,
                 null
         );
@@ -200,13 +201,13 @@ public class CatalogActivity extends AppCompatActivity implements
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Define a projection that specifies the columns from the table we care about.
         String[] projection = {
-                PetEntry._ID,
-                PetEntry.COLUMN_ITEM_NAME,
-                PetEntry.COLUMN_ITEM_SUPPLIER};
+                ItemEntry._ID,
+                ItemContract.ItemEntry.COLUMN_ITEM_NAME,
+                ItemEntry.COLUMN_ITEM_SUPPLIER};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
-                PetEntry.CONTENT_URI,   // Provider content URI to query
+                ItemContract.ItemEntry.CONTENT_URI,   // Provider content URI to query
                 projection,             // Columns to include in the resulting Cursor
                 null,                   // No selection clause
                 null,                   // No selection arguments

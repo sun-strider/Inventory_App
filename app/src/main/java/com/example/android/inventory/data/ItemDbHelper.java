@@ -20,19 +20,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.android.inventory.data.PetContract.PetEntry;
+import com.example.android.inventory.data.ItemContract.ItemEntry;
 
 /**
  * Database helper for Pets app. Manages database creation and version management.
  */
-public class PetDbHelper extends SQLiteOpenHelper {
+public class ItemDbHelper extends SQLiteOpenHelper {
 
-    public static final String LOG_TAG = PetDbHelper.class.getSimpleName();
+    public static final String LOG_TAG = ItemDbHelper.class.getSimpleName();
 
     /**
      * Name of the database file
      */
-    private static final String DATABASE_NAME = "shelter.db";
+    private static final String DATABASE_NAME = "inventory.db";
 
     /**
      * Database version. If you change the database schema, you must increment the database version.
@@ -40,11 +40,11 @@ public class PetDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     /**
-     * Constructs a new instance of {@link PetDbHelper}.
+     * Constructs a new instance of {@link ItemDbHelper}.
      *
      * @param context of the app
      */
-    public PetDbHelper(Context context) {
+    public ItemDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -54,16 +54,16 @@ public class PetDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create a String that contains the SQL statement to create the pets table
-        String SQL_CREATE_PETS_TABLE = "CREATE TABLE " + PetEntry.TABLE_NAME + " ("
-                + PetEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + PetEntry.COLUMN_ITEM_NAME + " TEXT NOT NULL, "
-                + PetEntry.COLUMN_ITEM_SUPPLIER + " TEXT, "
-                + PetEntry.COLUMN_ITEM_QUANTITY + " INTEGER NOT NULL, "
-                + PetEntry.COLUMN_ITEM_PRICE + " INTEGER NOT NULL DEFAULT 0);";
+        String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME + " ("
+                + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ItemContract.ItemEntry.COLUMN_ITEM_NAME + " TEXT NOT NULL, "
+                + ItemEntry.COLUMN_ITEM_SUPPLIER + " TEXT, "
+                + ItemEntry.COLUMN_ITEM_QUANTITY + " INTEGER NOT NULL DEFAULT 0, "
+                + ItemEntry.COLUMN_ITEM_PRICE + " INTEGER NOT NULL DEFAULT 0);";
 
         // Execute the SQL statement
-        db.execSQL(SQL_CREATE_PETS_TABLE);
-        Log.v(LOG_TAG, SQL_CREATE_PETS_TABLE);
+        db.execSQL(SQL_CREATE_ITEMS_TABLE);
+        Log.v(LOG_TAG, SQL_CREATE_ITEMS_TABLE);
     }
 
     /**

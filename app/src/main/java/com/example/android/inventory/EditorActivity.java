@@ -35,7 +35,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.android.inventory.data.PetContract.PetEntry;
+import com.example.android.inventory.data.ItemContract;
+import com.example.android.inventory.data.ItemContract.ItemEntry;
 
 /**
  * Allows user to create a new pet or edit an existing one.
@@ -75,7 +76,7 @@ public class EditorActivity extends AppCompatActivity implements
     private EditText mNameEditText;
 
     /**
-     * EditText field to enter the pet's breed
+     * EditText field to enter the pet's supplier
      */
     private EditText mSupplierEditText;
 
@@ -204,8 +205,8 @@ public class EditorActivity extends AppCompatActivity implements
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
-        values.put(PetEntry.COLUMN_ITEM_NAME, nameString);
-        values.put(PetEntry.COLUMN_ITEM_SUPPLIER, supplierString);
+        values.put(ItemContract.ItemEntry.COLUMN_ITEM_NAME, nameString);
+        values.put(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER, supplierString);
 
         // If the price is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
@@ -217,14 +218,14 @@ public class EditorActivity extends AppCompatActivity implements
         if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
         }
-        values.put(PetEntry.COLUMN_ITEM_PRICE, price);
-        values.put(PetEntry.COLUMN_ITEM_QUANTITY, quantity);
+        values.put(ItemContract.ItemEntry.COLUMN_ITEM_PRICE, price);
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, quantity);
 
         // Determine if this is a new or existing pet by checking if mCurrentPetUri is null or not
         if (mCurrentPetUri == null) {
             // This is a NEW pet, so insert a new pet into the provider,
             // returning the content URI for the new pet.
-            Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
+            Uri newUri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI, values);
 
             // Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
@@ -388,11 +389,11 @@ public class EditorActivity extends AppCompatActivity implements
         // Since the editor shows all pet attributes, define a projection that contains
         // all columns from the pet table
         String[] projection = {
-                PetEntry._ID,
-                PetEntry.COLUMN_ITEM_NAME,
-                PetEntry.COLUMN_ITEM_SUPPLIER,
-                PetEntry.COLUMN_ITEM_QUANTITY,
-                PetEntry.COLUMN_ITEM_PRICE};
+                ItemContract.ItemEntry._ID,
+                ItemEntry.COLUMN_ITEM_NAME,
+                ItemEntry.COLUMN_ITEM_SUPPLIER,
+                ItemEntry.COLUMN_ITEM_QUANTITY,
+                ItemContract.ItemEntry.COLUMN_ITEM_PRICE};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -414,10 +415,10 @@ public class EditorActivity extends AppCompatActivity implements
         // (This should be the only row in the cursor)
         if (cursor.moveToFirst()) {
             // Find the columns of pet attributes that we're interested in
-            int nameColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_ITEM_NAME);
-            int supplierColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_ITEM_SUPPLIER);
-            int amountColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_ITEM_QUANTITY);
-            int priceColumnIndex = cursor.getColumnIndex(PetEntry.COLUMN_ITEM_PRICE);
+            int nameColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
+            int supplierColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER);
+            int amountColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY);
+            int priceColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
