@@ -1,18 +1,4 @@
-/*
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.example.android.inventory.data;
 
 import android.content.Context;
@@ -23,7 +9,7 @@ import android.util.Log;
 import com.example.android.inventory.data.ItemContract.ItemEntry;
 
 /**
- * Database helper for Pets app. Manages database creation and version management.
+ * Database helper for Inventory app. Manages database creation and version management.
  */
 public class ItemDbHelper extends SQLiteOpenHelper {
 
@@ -53,7 +39,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Create a String that contains the SQL statement to create the pets table
+        // Create a String that contains the SQL statement to create the items table
         String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME + " ("
                 + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ItemContract.ItemEntry.COLUMN_ITEM_NAME + " TEXT NOT NULL, "

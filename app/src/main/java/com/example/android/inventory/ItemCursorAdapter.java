@@ -1,44 +1,34 @@
-/*
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.example.android.inventory;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.android.inventory.data.ItemContract.ItemEntry;
 
 /**
- * {@link PetCursorAdapter} is an adapter for a list or grid view
- * that uses a {@link Cursor} of pet data as its data source. This adapter knows
- * how to create list items for each row of pet data in the {@link Cursor}.
+ * {@link ItemCursorAdapter} is an adapter for a list or grid view
+ * that uses a {@link Cursor} of item data as its data source. This adapter knows
+ * how to create list items for each row of item data in the {@link Cursor}.
  */
-public class PetCursorAdapter extends CursorAdapter {
+public class ItemCursorAdapter extends CursorAdapter {
 
     /**
-     * Constructs a new {@link PetCursorAdapter}.
+     * Constructs a new {@link ItemCursorAdapter}.
      *
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public PetCursorAdapter(Context context, Cursor c) {
+    public ItemCursorAdapter(Context context, Cursor c) {
         super(context, c, 0 /* flags */);
     }
 
@@ -58,8 +48,8 @@ public class PetCursorAdapter extends CursorAdapter {
     }
 
     /**
-     * This method binds the pet data (in the current row pointed to by cursor) to the given
-     * list item layout. For example, the name for the current pet can be set on the name TextView
+     * This method binds the item data (in the current row pointed to by cursor) to the given
+     * list item layout. For example, the name for the current item can be set on the name TextView
      * in the list item layout.
      *
      * @param view    Existing view, returned earlier by newView() method
@@ -68,25 +58,42 @@ public class PetCursorAdapter extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
         TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        Button sellButton = (Button) view.findViewById(R.id.sellButton);
 
-        // Find the columns of pet attributes that we're interested in
+        // Find the columns of item attributes that we're interested in
+        int idColumnIndex = cursor.getColumnIndex(ItemEntry._ID);
         int nameColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
         int quantityColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
         int priceColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
 
         // Extract out the value from the Cursor for the given column index
+        int id = cursor.getInt(idColumnIndex);
         String name = cursor.getString(nameColumnIndex);
-        int quantity = cursor.getInt(quantityColumnIndex);
+        final int quantity = cursor.getInt(quantityColumnIndex);
         double price = cursor.getDouble(priceColumnIndex);
 
-        // Update the TextViews with the attributes for the current pet
+        // Update the TextViews with the attributes for the current item
         nameTextView.setText(name);
         priceTextView.setText(Double.toString(price));
         quantityTextView.setText(Integer.toString(quantity));
+
+        final Uri currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, id);
+
+        sellButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ContentValues values = new ContentValues();
+                values.put(ItemEntry.COLUMN_ITEM_QUANTITY, (quantity - 1));
+
+                int rowsAffected = context.getContentResolver().update(currentItemUri, values, null, null);
+
+            }
+        });
     }
 }

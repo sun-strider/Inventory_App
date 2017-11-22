@@ -32,7 +32,7 @@
     <!-- Title for the activity to edit an existing item [CHAR LIMIT=20] -->
     <string name="editor_activity_title_edit_item">Edit Item</string>
 
-    <!-- Label for editor menu option to save pet and leave editor [CHAR LIMIT=20] -->
+    <!-- Label for editor menu option to save item and leave editor [CHAR LIMIT=20] -->
     <string name="action_save">Save</string>
 
     <!-- Label for editor overflow menu option that deletes the current item [CHAR LIMIT=20] -->
@@ -86,7 +86,7 @@
     <!-- Toast message in editor when current item was successfully deleted [CHAR LIMIT=NONE] -->
     <string name="editor_delete_item_successful">Item deleted</string>
 
-    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when current item has failed to be deleted [CHAR LIMIT=NONE] -->
     <string name="editor_delete_item_failed">Error with deleting item</string>
 
     <!-- Dialog message to ask the user to confirm deleting the current item [CHAR LIMIT=NONE] -->
@@ -108,16 +108,7 @@
     <string name="cancel">Cancel</string>
 
 
-    <!-- Label for the pet's supplier if the supplier is unknown [CHAR LIMIT=20] -->
+    <!-- Label for the item's supplier if the supplier is unknown [CHAR LIMIT=20] -->
     <string name="unknown_supplier">Unknown supplier</string>
-
-    <!-- Label for dropdown menu option if the pet's gender is unknown [CHAR LIMIT=20] -->
-    <string name="gender_unknown">Unknown</string>
-
-    <!-- Label for dropdown menu option if the pet is male [CHAR LIMIT=20] -->
-    <string name="gender_male">Male</string>
-
-    <!-- Label for dropdown menu option if the pet is female [CHAR LIMIT=20] -->
-    <string name="gender_female">Female</string>
 
 </resources>
