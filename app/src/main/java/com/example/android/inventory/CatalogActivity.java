@@ -98,7 +98,7 @@ public class CatalogActivity extends AppCompatActivity implements
         // Create a ContentValues object where column names are the keys,
         // and Toto's item attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(ItemContract.ItemEntry.COLUMN_ITEM_NAME, "Dummy");
+        values.put(ItemContract.ItemEntry.COLUMN_ITEM_NAME, "Some Item");
         values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, "Generic Supplier");
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 10);
         values.put(ItemEntry.COLUMN_ITEM_PRICE, 5.00);

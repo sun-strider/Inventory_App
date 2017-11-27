@@ -16,6 +16,9 @@
     <!-- Common margin value used throughout the app -->
     <dimen name="activity_margin">16dp</dimen>
 
+    <!-- Small padding for views -->
+    <dimen name="view_padding_medium">16dp</dimen>
+
     <!-- Text size large -->
     <dimen name="text_large">16sp</dimen>
 

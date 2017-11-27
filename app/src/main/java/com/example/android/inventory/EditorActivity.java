@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventory.data.ItemContract;
@@ -67,14 +69,35 @@ public class EditorActivity extends AppCompatActivity implements
     private EditText mSupplierEditText;
 
     /**
-     * EditText field to enter the item's weight
+     * EditText field to enter the item's price
      */
     private EditText mPriceEditText;
 
     /**
-     * EditText field to enter the item's weight
+     * EditText field to enter the item's quantity
      */
     private EditText mQuantityEditText;
+
+    /**
+     * EditText field to enter the item's quantity
+     */
+    private TextView mQuantityPlusButton;
+
+    /**
+     * EditText field to enter the item's quantity
+     */
+    private TextView mQuantityMinusButton;
+
+    /**
+     * EditText field to enter the item's quantity
+     */
+    private ImageView mItemImageView;
+
+    /**
+     * EditText field to enter the item's quantity
+     */
+    private String mCurrentImageUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,12 +132,59 @@ public class EditorActivity extends AppCompatActivity implements
         mSupplierEditText = (EditText) findViewById(R.id.edit_supplier);
         mPriceEditText = (EditText) findViewById(R.id.edit_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
+        mQuantityMinusButton = (TextView) findViewById(R.id.minus_quantity);
+        mQuantityPlusButton = (TextView) findViewById(R.id.plus_quantity);
+        mItemImageView = (ImageView) findViewById(R.id.image_view);
 
         // Set listeners on the input fields
         mNameEditText.setOnTouchListener(mTouchListener);
         mSupplierEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
+
+        // Set Click Listener for button clicks
+        mQuantityMinusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Read out current value and only decrease if not null or 0
+                String previousValueString = mQuantityEditText.getText().toString();
+                int previousValue;
+                if (previousValueString.isEmpty() || previousValueString.equals("0")) {
+                    return;
+                } else {
+                    previousValue = Integer.parseInt(previousValueString);
+                    mQuantityEditText.setText(String.valueOf(previousValue - 1));}
+            }
+        });
+
+        mQuantityPlusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Read out current value and if null, set to zero. In any case, add 1 to the value
+                String previousValueString = mQuantityEditText.getText().toString();
+                int previousValue;
+                if (previousValueString.isEmpty()) {
+                    previousValue = 0;
+                } else {
+                    previousValue = Integer.parseInt(previousValueString);
+                }
+                mQuantityEditText.setText(String.valueOf(previousValue + 1));
+
+            }
+        });
+
+
+        // Set Click Listener on ImageView so the user can select an image
+        mItemImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // TODO: implement image selection when clicked
+
+            }
+        });
     }
 
     /**
@@ -182,7 +252,9 @@ public class EditorActivity extends AppCompatActivity implements
         // and check if all the fields in the editor are blank
         if (mCurrentItemUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(supplierString) &&
-                TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString)) {
+                TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) &&
+                mCurrentImageUri == null
+                ) {
             // Since no fields were modified, we can return early without creating a new item.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
@@ -193,6 +265,7 @@ public class EditorActivity extends AppCompatActivity implements
         ContentValues values = new ContentValues();
         values.put(ItemEntry.COLUMN_ITEM_NAME, nameString);
         values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, supplierString);
+        values.put(ItemEntry.COLUMN_ITEM_IMAGE_URI, mCurrentImageUri);
 
         // If the price is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
@@ -379,7 +452,8 @@ public class EditorActivity extends AppCompatActivity implements
                 ItemEntry.COLUMN_ITEM_NAME,
                 ItemEntry.COLUMN_ITEM_SUPPLIER,
                 ItemEntry.COLUMN_ITEM_QUANTITY,
-                ItemContract.ItemEntry.COLUMN_ITEM_PRICE};
+                ItemEntry.COLUMN_ITEM_PRICE,
+                ItemEntry.COLUMN_ITEM_IMAGE_URI};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -405,18 +479,21 @@ public class EditorActivity extends AppCompatActivity implements
             int supplierColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER);
             int quantityColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
             int priceColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
+            int imageUriIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_IMAGE_URI);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             String supplier = cursor.getString(supplierColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             double price = cursor.getDouble(priceColumnIndex);
+            String imageUri = cursor.getString(imageUriIndex);
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mSupplierEditText.setText(supplier);
             mQuantityEditText.setText(Integer.toString(quantity));
             mPriceEditText.setText(Double.toString(price));
+            // TODO: Set Image in the ImageView, Use Picasso
         }
     }
 

@@ -40,8 +40,16 @@
     <style name="EditorFieldStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <!-- Style for an Buttons in the editor -->
+    <style name="ButtonStyle">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAppearance">?android:textAppearanceLarge</item>
+        <item name="android:padding">@dimen/view_padding_medium</item>
     </style>
 
     <!-- Style for the measurement units for an EditText field in the editor -->

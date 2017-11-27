@@ -98,6 +98,13 @@ public final class ItemContract {
          * Type: INTEGER
          */
         public final static String COLUMN_ITEM_PRICE = "price";
+
+        /**
+         * Uri of the image to the item
+         *
+         * Type: TEXT
+         */
+        public final static String COLUMN_ITEM_IMAGE_URI ="image_uri";
     }
 
 }
