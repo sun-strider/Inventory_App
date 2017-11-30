@@ -227,8 +227,6 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
 
-        // TODO: Add Order Button to order new items and set intent to open email
-
 
         // Set Click Listener on ImageView so the user can select an image
         mItemImageView.setOnClickListener(new View.OnClickListener() {
