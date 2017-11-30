@@ -65,6 +65,17 @@
     <!-- Text hint for supplier field in the editor [CHAR LIMIT=30] -->
     <string name="hint_item_supplier">Supplier</string>
 
+    <!-- Text for the order button [CHAR LIMIT=30] -->
+    <string name="order_button">Order</string>
+
+    <!-- Text for the subject of the mail [CHAR LIMIT=30] -->
+    <string name="email_subject">Order for</string>
+
+    <!-- Text for the subject of the mail [CHAR LIMIT=30] -->
+    <string name="email_text">Dear Sir or Madam\n
+    \n
+    We would like to order more of the above item. We need the following quantity:\n</string>
+
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
     <string name="hint_item_price">Price</string>
 

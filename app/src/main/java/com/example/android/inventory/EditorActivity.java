@@ -1,6 +1,7 @@
 
 package com.example.android.inventory;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -10,14 +11,17 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.android.inventory.data.ItemContract;
 import com.example.android.inventory.data.ItemContract.ItemEntry;
+import com.squareup.picasso.Picasso;
 
 /**
  * Allows user to create a new item or edit an existing one.
@@ -33,10 +38,14 @@ public class EditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
+     * Identifier for the image request
+     */
+    public static final int PICK_IMAGE_REQUEST = 10;
+    private static final String LOG_TAG = EditorActivity.class.getSimpleName();
+    /**
      * Identifier for the item data loader
      */
     private static final int EXISTING_ITEM_LOADER = 0;
-
     /**
      * Content URI for the existing item (null if it's a new item)
      */
@@ -79,6 +88,11 @@ public class EditorActivity extends AppCompatActivity implements
     private EditText mQuantityEditText;
 
     /**
+     * Order button to order more items from the supplier
+     */
+    private Button mOrderButton;
+
+    /**
      * EditText field to enter the item's quantity
      */
     private TextView mQuantityPlusButton;
@@ -89,9 +103,19 @@ public class EditorActivity extends AppCompatActivity implements
     private TextView mQuantityMinusButton;
 
     /**
-     * EditText field to enter the item's quantity
+     * ImageView field for the item image
      */
     private ImageView mItemImageView;
+
+    /**
+     * EditText field to enter the item's quantity
+     */
+    private TextView mEmptyImageTextView;
+
+    /**
+     * Name of the item
+     */
+    private String mItemName;
 
     /**
      * EditText field to enter the item's quantity
@@ -132,17 +156,44 @@ public class EditorActivity extends AppCompatActivity implements
         mSupplierEditText = (EditText) findViewById(R.id.edit_supplier);
         mPriceEditText = (EditText) findViewById(R.id.edit_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
+        mOrderButton = (Button) findViewById(R.id.order_button);
         mQuantityMinusButton = (TextView) findViewById(R.id.minus_quantity);
         mQuantityPlusButton = (TextView) findViewById(R.id.plus_quantity);
         mItemImageView = (ImageView) findViewById(R.id.image_view);
+        mEmptyImageTextView = (TextView) findViewById(R.id.empty_image);
 
         // Set listeners on the input fields
         mNameEditText.setOnTouchListener(mTouchListener);
         mSupplierEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
+        mItemImageView.setOnTouchListener(mTouchListener);
 
-        // Set Click Listener for button clicks
+        // Set click listener for order button
+        mOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mItemName = String.valueOf(mNameEditText.getText());
+
+                /** Send email with the freetext answer
+                 *  will use the email address and sunject defined in strings.xml
+                 */
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+
+                // Can be used if email of supplier is saved in the database
+                // intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
+
+                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject) + " " + mItemName);
+                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.email_text));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
+        // Set Click Listener for add/subract quantity button clicks
         mQuantityMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +205,8 @@ public class EditorActivity extends AppCompatActivity implements
                     return;
                 } else {
                     previousValue = Integer.parseInt(previousValueString);
-                    mQuantityEditText.setText(String.valueOf(previousValue - 1));}
+                    mQuantityEditText.setText(String.valueOf(previousValue - 1));
+                }
             }
         });
 
@@ -175,14 +227,16 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
 
+        // TODO: Add Order Button to order new items and set intent to open email
+
 
         // Set Click Listener on ImageView so the user can select an image
         mItemImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // TODO: implement image selection when clicked
-
+                // Call method which starts the image selection
+                openImageSelector();
             }
         });
     }
@@ -443,6 +497,50 @@ public class EditorActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    public void openImageSelector() {
+        Intent intent;
+
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
+
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        // The ACTION_OPEN_DOCUMENT intent was sent with the request code READ_REQUEST_CODE.
+        // If the request code seen here doesn't match, it's the response to some other intent,
+        // and the below code shouldn't run at all.
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            // The document selected by the user won't be returned in the intent.
+            // Instead, a URI to that document will be contained in the return intent
+            // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
+
+            if (resultData != null) {
+                Uri resultUri = resultData.getData();
+                mCurrentImageUri = resultUri.toString();
+                Log.i(LOG_TAG, "Uri: " + mCurrentImageUri);
+
+                // Load the image into the ImageView
+                if (mCurrentImageUri != null) {
+                    Picasso.with(this)
+                            .load(mCurrentImageUri)
+                            .fit().centerCrop()
+                            .into(mItemImageView);
+
+                    // Hide the text to select an image
+                    mEmptyImageTextView.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Since the editor shows all item attributes, define a projection that contains
@@ -466,6 +564,9 @@ public class EditorActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        // Hide the text to select an image
+        mEmptyImageTextView.setVisibility(View.GONE);
+
         // Bail early if the cursor is null or there is less than 1 row in the cursor
         if (cursor == null || cursor.getCount() < 1) {
             return;
@@ -486,14 +587,42 @@ public class EditorActivity extends AppCompatActivity implements
             String supplier = cursor.getString(supplierColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             double price = cursor.getDouble(priceColumnIndex);
-            String imageUri = cursor.getString(imageUriIndex);
+            mCurrentImageUri = cursor.getString(imageUriIndex);
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mSupplierEditText.setText(supplier);
             mQuantityEditText.setText(Integer.toString(quantity));
             mPriceEditText.setText(Double.toString(price));
-            // TODO: Set Image in the ImageView, Use Picasso
+
+            // TODO: Check not working yet
+
+/*
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor fileCursor = this.getContentResolver().query(Uri.parse(mCurrentImageUri), filePathColumn, null, null, null);
+            fileCursor.moveToFirst();
+            int columnIndex = fileCursor.getColumnIndex(filePathColumn[0]);
+            String filePath = fileCursor.getString(columnIndex);
+            fileCursor.close();
+
+            // Check if there is an image and load it into the ImageView
+            File imageFile = new File(filePath);
+            if (imageFile.exists()) {
+*/
+
+            if (mCurrentImageUri != null) {
+                Picasso.with(this)
+                        .load(mCurrentImageUri)
+                        .fit().centerCrop()
+                        .into(mItemImageView);
+            } else {
+                mEmptyImageTextView.setText("Image not found. Please select a new image");
+                mEmptyImageTextView.setVisibility(View.VISIBLE);
+            }
+
+            // Show the text to select an image
+            mEmptyImageTextView.setText("Image not found. Please select a new image");
+            mEmptyImageTextView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -504,5 +633,6 @@ public class EditorActivity extends AppCompatActivity implements
         mSupplierEditText.setText("");
         mPriceEditText.setText("");
         mQuantityEditText.setText("");
+        mItemImageView.setImageDrawable(null);
     }
 }

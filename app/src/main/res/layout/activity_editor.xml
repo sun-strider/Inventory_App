@@ -41,6 +41,14 @@
                 style="@style/EditorFieldStyle"
                 android:hint="@string/hint_item_supplier"
                 android:inputType="textCapWords" />
+
+            <Button
+                android:id="@+id/order_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_button"
+                android:textColor="@color/colorAccent" />
+
         </LinearLayout>
     </LinearLayout>
 
@@ -58,7 +66,7 @@
             android:text="@string/category_price" />
 
         <!-- Input fields -->
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -68,6 +76,7 @@
             <EditText
                 android:id="@+id/edit_price"
                 style="@style/EditorFieldStyle"
+                android:layout_width="wrap_content"
                 android:hint="@string/hint_item_price"
                 android:inputType="numberDecimal" />
 
@@ -76,7 +85,7 @@
                 android:id="@+id/label_weight_units"
                 style="@style/EditorUnitsStyle"
                 android:text="@string/unit_item_price" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Quantity category -->
@@ -112,6 +121,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:gravity="center"
                 android:hint="@string/hint_item_quantity"
                 android:inputType="number" />
 
@@ -130,11 +140,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <TextView
             android:id="@+id/empty_image"
             android:layout_width="wrap_content"
@@ -144,6 +149,11 @@
             android:text="Add a Picture"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/text_large" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 
