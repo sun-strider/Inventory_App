@@ -495,6 +495,8 @@ public class EditorActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    // Code sample from https://github.com/crlsndrsjmnz/MyShareImageExample
+    // Check SDK Version and set according intent action
     public void openImageSelector() {
         Intent intent;
 
@@ -509,6 +511,7 @@ public class EditorActivity extends AppCompatActivity implements
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    // Method that is called after image picker has been called and a result is given
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         // The ACTION_OPEN_DOCUMENT intent was sent with the request code READ_REQUEST_CODE.
