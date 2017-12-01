@@ -1,4 +1,3 @@
-
 package com.example.android.inventory;
 
 import android.content.ContentUris;
@@ -62,7 +61,7 @@ public class ItemCursorAdapter extends CursorAdapter {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
         Button sellButton = (Button) view.findViewById(R.id.sellButton);
 
         // Find the columns of item attributes that we're interested in
@@ -88,11 +87,13 @@ public class ItemCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
 
-                ContentValues values = new ContentValues();
-                values.put(ItemEntry.COLUMN_ITEM_QUANTITY, (quantity - 1));
+                if (quantity > 0) {
+                    ContentValues values = new ContentValues();
+                    values.put(ItemEntry.COLUMN_ITEM_QUANTITY, (quantity - 1));
 
-                int rowsAffected = context.getContentResolver().update(currentItemUri, values, null, null);
+                    int rowsAffected = context.getContentResolver().update(currentItemUri, values, null, null);
 
+                }
             }
         });
     }

@@ -1,4 +1,3 @@
-
 package com.example.android.inventory;
 
 import android.app.Activity;
@@ -176,9 +175,7 @@ public class EditorActivity extends AppCompatActivity implements
 
                 mItemName = String.valueOf(mNameEditText.getText());
 
-                /** Send email with the freetext answer
-                 *  will use the email address and sunject defined in strings.xml
-                 */
+                // Send email for an order
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:")); // only email apps should handle this
 
@@ -201,9 +198,7 @@ public class EditorActivity extends AppCompatActivity implements
                 // Read out current value and only decrease if not null or 0
                 String previousValueString = mQuantityEditText.getText().toString();
                 int previousValue;
-                if (previousValueString.isEmpty() || previousValueString.equals("0")) {
-                    return;
-                } else {
+                if (!previousValueString.isEmpty() && !previousValueString.equals("0")) {
                     previousValue = Integer.parseInt(previousValueString);
                     mQuantityEditText.setText(String.valueOf(previousValue - 1));
                 }
@@ -300,35 +295,46 @@ public class EditorActivity extends AppCompatActivity implements
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
 
-        // Check if this is supposed to be a new item
-        // and check if all the fields in the editor are blank
-        if (mCurrentItemUri == null &&
-                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(supplierString) &&
-                TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) &&
+
+        if (TextUtils.isEmpty(nameString) ||
+                TextUtils.isEmpty(supplierString) ||
+                TextUtils.isEmpty(priceString) ||
+                TextUtils.isEmpty(quantityString) ||
                 mCurrentImageUri == null
                 ) {
-            // Since no fields were modified, we can return early without creating a new item.
-            // No need to create ContentValues and no need to do any ContentProvider operations.
+
+            // Since fields may not be empty we return early and show a toast message
+            Toast.makeText(this, R.string.message_empty_input, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // If the price is not provided by the user, don't try to parse the string into an
+        // integer value. Use 0 by default.
+        double price;
+        int quantity;
+
+        // Try if the input format is correct, if not show a toast message and return early
+        try {
+            price = Double.parseDouble(priceString);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, R.string.message_wrong_input_format, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            quantity = Integer.parseInt(quantityString);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, R.string.message_wrong_input_format, Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Create a ContentValues object where column names are the keys,
         // and item attributes from the editor are the values.
         ContentValues values = new ContentValues();
+
+        // Insert values into ContentValues object
         values.put(ItemEntry.COLUMN_ITEM_NAME, nameString);
         values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, supplierString);
         values.put(ItemEntry.COLUMN_ITEM_IMAGE_URI, mCurrentImageUri);
-
-        // If the price is not provided by the user, don't try to parse the string into an
-        // integer value. Use 0 by default.
-        double price = 0;
-        int quantity = 0;
-        if (!TextUtils.isEmpty(priceString)) {
-            price = Double.parseDouble(priceString);
-        }
-        if (!TextUtils.isEmpty(quantityString)) {
-            quantity = Integer.parseInt(quantityString);
-        }
         values.put(ItemEntry.COLUMN_ITEM_PRICE, price);
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, quantity);
 
@@ -366,6 +372,8 @@ public class EditorActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         }
+        // Exit activity
+        finish();
     }
 
     private void showDeleteConfirmationDialog() {
@@ -459,8 +467,6 @@ public class EditorActivity extends AppCompatActivity implements
             case R.id.action_save:
                 // Save item to database
                 saveItem();
-                // Exit activity
-                finish();
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
@@ -610,20 +616,18 @@ public class EditorActivity extends AppCompatActivity implements
             File imageFile = new File(filePath);
             if (imageFile.exists()) {
 */
-
+            // Load image into image view. If the uri points to an empty path, set a placeholder imgae
             if (mCurrentImageUri != null) {
                 Picasso.with(this)
                         .load(mCurrentImageUri)
                         .fit().centerCrop()
+                        .placeholder(R.drawable.ic_empty_shelter)
+                        .error(R.drawable.ic_empty_shelter)
                         .into(mItemImageView);
             } else {
                 mEmptyImageTextView.setText("Image not found. Please select a new image");
                 mEmptyImageTextView.setVisibility(View.VISIBLE);
             }
-
-            // Show the text to select an image
-            mEmptyImageTextView.setText("Image not found. Please select a new image");
-            mEmptyImageTextView.setVisibility(View.VISIBLE);
         }
     }
 

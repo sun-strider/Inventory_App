@@ -1,4 +1,3 @@
-
 package com.example.android.inventory.data;
 
 import android.content.ContentResolver;
@@ -65,46 +64,46 @@ public final class ItemContract {
 
         /**
          * Unique ID number for the item (only for use in the database table).
-         *
+         * <p>
          * Type: INTEGER
          */
         public final static String _ID = BaseColumns._ID;
 
         /**
          * Name of the item
-         *
+         * <p>
          * Type: TEXT
          */
-        public final static String COLUMN_ITEM_NAME ="name";
+        public final static String COLUMN_ITEM_NAME = "name";
 
         /**
          * Supplier of item.
-         *
+         * <p>
          * Type: TEXT
          */
         public final static String COLUMN_ITEM_SUPPLIER = "supplier";
 
         /**
          * Quantity of the item.
-         *
-         *
+         * <p>
+         * <p>
          * Type: INTEGER
          */
         public final static String COLUMN_ITEM_QUANTITY = "quantity";
 
         /**
          * Price of the item.
-         *
+         * <p>
          * Type: INTEGER
          */
         public final static String COLUMN_ITEM_PRICE = "price";
 
         /**
          * Uri of the image to the item
-         *
+         * <p>
          * Type: TEXT
          */
-        public final static String COLUMN_ITEM_IMAGE_URI ="image_uri";
+        public final static String COLUMN_ITEM_IMAGE_URI = "image_uri";
     }
 
 }

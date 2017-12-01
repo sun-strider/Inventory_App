@@ -1,4 +1,3 @@
-
 package com.example.android.inventory.data;
 
 import android.content.ContentProvider;
@@ -60,7 +59,9 @@ public class ItemProvider extends ContentProvider {
         sUriMatcher.addURI(ItemContract.CONTENT_AUTHORITY, ItemContract.PATH_ITEMS + "/#", ITEM_ID);
     }
 
-    /** Database helper object */
+    /**
+     * Database helper object
+     */
     private ItemDbHelper mDbHelper;
 
     @Override
@@ -134,25 +135,9 @@ public class ItemProvider extends ContentProvider {
      * for that specific row in the database.
      */
     private Uri insertItem(Uri uri, ContentValues values) {
-        // Check that the name is not null
-        String name = values.getAsString(ItemEntry.COLUMN_ITEM_NAME);
-        if (name == null) {
-            throw new IllegalArgumentException("Item requires a name");
-        }
 
-        // Check that the quantity is valid
-        Integer quantity = values.getAsInteger(ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY);
-        if (quantity != null && quantity < 0) {
-            throw new IllegalArgumentException("Item requires valid quantity");
-        }
-
-        // If the price is provided, check that it's greater than or equal to 0 kg
-        Integer price = values.getAsInteger(ItemEntry.COLUMN_ITEM_PRICE);
-        if (price != null && price < 0) {
-            throw new IllegalArgumentException("Item requires valid price");
-        }
-
-        // No need to check the supplier, any value is valid (including null).
+        // Check if the ContentValues object contains valid values
+        validValuesCheck(values);
 
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -197,27 +182,9 @@ public class ItemProvider extends ContentProvider {
      * Return the number of rows that were successfully updated.
      */
     private int updateItem(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // If the {@link ItemEntry#COLUMN_ITEM_NAME} key is present,
-        // check that the name value is not null.
-        if (values.containsKey(ItemContract.ItemEntry.COLUMN_ITEM_NAME)) {
-            String name = values.getAsString(ItemContract.ItemEntry.COLUMN_ITEM_NAME);
-            if (name == null) {
-                throw new IllegalArgumentException("Item requires a name");
-            }
-        }
 
-        // If the {@link ItemEntry#COLUMN_ITEM_PRICE} key is present,
-        // check that the price value is valid.
-        if (values.containsKey(ItemEntry.COLUMN_ITEM_PRICE)) {
-            // Check that the price is greater than or equal to 0
-            Integer price = values.getAsInteger(ItemEntry.COLUMN_ITEM_PRICE);
-            if (price != null && price < 0) {
-                throw new IllegalArgumentException("Item requires valid price");
-            }
-        }
-
-        // No need to check the supplier, any value is valid (including null).
-        // No need to check the quantity, any value is valid (including null).
+        // Check if the ContentValues object contains valid values
+        validValuesCheck(values);
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
@@ -286,4 +253,57 @@ public class ItemProvider extends ContentProvider {
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
     }
+
+    Boolean validValuesCheck(ContentValues values) {
+
+
+        // If the {@link ItemEntry#COLUMN_ITEM_NAME} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ItemContract.ItemEntry.COLUMN_ITEM_NAME)) {
+            String name = values.getAsString(ItemContract.ItemEntry.COLUMN_ITEM_NAME);
+            if (name == null) {
+                throw new IllegalArgumentException("Item requires a name");
+
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_SUPPLIER} key is present,
+        // Check that the supplier is not null
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_SUPPLIER)) {
+            String supplier = values.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER);
+            if (supplier == null) {
+                throw new IllegalArgumentException("Item requires a supplier");
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_QUANTITY} key is present,
+        // Check that the quantity is valid
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_QUANTITY)) {
+            Integer quantity = values.getAsInteger(ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY);
+            if (quantity != null && quantity < 0) {
+                throw new IllegalArgumentException("Item requires valid quantity");
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_PRICE} key is present,
+        // check that the price value is valid.
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_PRICE)) {
+            // Check that the price is greater than or equal to 0
+            Integer price = values.getAsInteger(ItemEntry.COLUMN_ITEM_PRICE);
+            if (price != null && price < 0) {
+                throw new IllegalArgumentException("Item requires valid price");
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_IMAGE_URI} key is present,
+        // Check that the supplier is not null
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_IMAGE_URI)) {
+            String imageUri = values.getAsString(ItemEntry.COLUMN_ITEM_IMAGE_URI);
+            if (imageUri == null) {
+                throw new IllegalArgumentException("Item requires a supplier");
+            }
+        }
+        return true;
+    }
+
 }

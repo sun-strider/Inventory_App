@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2016 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2016 The Android Open Source Project
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
@@ -68,6 +67,9 @@
     <!-- Text for the order button [CHAR LIMIT=30] -->
     <string name="order_button">Order</string>
 
+    <!-- Text for the order button [CHAR LIMIT=30] -->
+    <string name="sell_button">Sell</string>
+
     <!-- Text for the subject of the mail [CHAR LIMIT=30] -->
     <string name="email_subject">Order for</string>
 
@@ -118,8 +120,13 @@
     <!-- Dialog button text for the option to cancel deletion of the current item [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
 
-
     <!-- Label for the item's supplier if the supplier is unknown [CHAR LIMIT=20] -->
     <string name="unknown_supplier">Unknown supplier</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current item [CHAR LIMIT=20] -->
+    <string name="message_empty_input">No input field may be empty</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current item [CHAR LIMIT=20] -->
+    <string name="message_wrong_input_format">The input format is wrong</string>
 
 </resources>

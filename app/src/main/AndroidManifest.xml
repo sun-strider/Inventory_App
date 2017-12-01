@@ -28,6 +28,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.inventory.CatalogActivity" />
         </activity>
+
         <provider
             android:name="com.example.android.inventory.data.ItemProvider"
             android:authorities="com.example.android.inventory"

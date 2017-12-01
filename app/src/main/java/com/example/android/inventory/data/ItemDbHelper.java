@@ -1,4 +1,3 @@
-
 package com.example.android.inventory.data;
 
 import android.content.Context;
@@ -13,7 +12,7 @@ import com.example.android.inventory.data.ItemContract.ItemEntry;
  */
 public class ItemDbHelper extends SQLiteOpenHelper {
 
-    public static final String LOG_TAG = ItemDbHelper.class.getSimpleName();
+    private static final String LOG_TAG = ItemDbHelper.class.getSimpleName();
 
     /**
      * Name of the database file
@@ -30,7 +29,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
      *
      * @param context of the app
      */
-    public ItemDbHelper(Context context) {
+    ItemDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

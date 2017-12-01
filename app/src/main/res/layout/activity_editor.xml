@@ -35,13 +35,14 @@
                 android:hint="@string/hint_item_name"
                 android:inputType="textCapWords" />
 
-            <!-- Breed field -->
+            <!-- Supplier field -->
             <EditText
                 android:id="@+id/edit_supplier"
                 style="@style/EditorFieldStyle"
                 android:hint="@string/hint_item_supplier"
                 android:inputType="textCapWords" />
 
+            <!-- Order button -->
             <Button
                 android:id="@+id/order_button"
                 android:layout_width="wrap_content"

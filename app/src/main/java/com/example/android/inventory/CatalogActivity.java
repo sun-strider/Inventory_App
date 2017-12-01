@@ -1,14 +1,15 @@
-
 package com.example.android.inventory;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,7 +36,9 @@ public class CatalogActivity extends AppCompatActivity implements
      */
     private static final int ITEM_LOADER = 0;
 
-    /** Adapter for the ListView */
+    /**
+     * Adapter for the ListView
+     */
     ItemCursorAdapter mCursorAdapter;
 
     @Override
@@ -96,18 +99,29 @@ public class CatalogActivity extends AppCompatActivity implements
      */
     private void insertItem() {
         // Create a ContentValues object where column names are the keys,
-        // and Toto's item attributes are the values.
+        // and generic item attributes are the values.
         ContentValues values = new ContentValues();
         values.put(ItemContract.ItemEntry.COLUMN_ITEM_NAME, "Some Item");
         values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, "Generic Supplier");
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 10);
         values.put(ItemEntry.COLUMN_ITEM_PRICE, 5.00);
 
-        // Insert a new row for Toto into the provider using the ContentResolver.
+        Resources resources = this.getResources();
+        Uri placeholderImageUri = new Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(resources.getResourcePackageName(R.drawable.ic_empty_shelter))
+                .appendPath(resources.getResourceTypeName(R.drawable.ic_empty_shelter))
+                .appendPath(resources.getResourceEntryName(R.drawable.ic_empty_shelter))
+                .build();
+
+        values.put(ItemEntry.COLUMN_ITEM_IMAGE_URI, String.valueOf(placeholderImageUri));
+
+
+        // Insert a new row for generic item into the provider using the ContentResolver.
         // Use the {@link ItemEntry#CONTENT_URI} to indicate that we want to insert
         // into the items database table.
-        // Receive the new content URI that will allow us to access Toto's data in the future.
-        Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        // Receive the new content URI that will allow us to access the items's data in the future.
+        getContentResolver().insert(ItemEntry.CONTENT_URI, values);
     }
 
     private void showDeleteConfirmationDialog() {
