@@ -199,32 +199,52 @@ public class EditorActivity extends AppCompatActivity implements
                 String previousValueString = mQuantityEditText.getText().toString();
                 int previousValue;
                 if (!previousValueString.isEmpty() && !previousValueString.equals("0")) {
-                    previousValue = Integer.parseInt(previousValueString);
-                    mQuantityEditText.setText(String.valueOf(previousValue - 1));
+
+                    try {
+                        previousValue = Integer.parseInt(previousValueString);
+                        mQuantityEditText.setText(String.valueOf(previousValue - 1));
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(EditorActivity.this, R.string.message_wrong_number_format, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
             }
         });
 
-        mQuantityPlusButton.setOnClickListener(new View.OnClickListener() {
+        mQuantityPlusButton.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
 
                 // Read out current value and if null, set to zero. In any case, add 1 to the value
                 String previousValueString = mQuantityEditText.getText().toString();
                 int previousValue;
+
+
                 if (previousValueString.isEmpty()) {
                     previousValue = 0;
                 } else {
-                    previousValue = Integer.parseInt(previousValueString);
+                    try {
+                        previousValue = Integer.parseInt(previousValueString);
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(EditorActivity.this, R.string.message_wrong_number_format, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
+
+
                 mQuantityEditText.setText(String.valueOf(previousValue + 1));
+
 
             }
         });
 
 
         // Set Click Listener on ImageView so the user can select an image
-        mItemImageView.setOnClickListener(new View.OnClickListener() {
+        mItemImageView.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
 

@@ -129,4 +129,7 @@
     <!-- Dialog button text for the option to cancel deletion of the current item [CHAR LIMIT=20] -->
     <string name="message_wrong_input_format">The input format is wrong</string>
 
+    <!-- Dialog button text for the option to cancel deletion of the current item [CHAR LIMIT=20] -->
+    <string name="message_wrong_number_format">Wrong number format. Put in a number which makes sense!</string>
+
 </resources>
